@@ -1,5 +1,8 @@
 #include "Stdafx.h"
 #include "Shader.h"
+#include <fstream>
+#include <sstream>
+#include <iostream>
 
 Shader::Shader(const std::string vertexPath, const std::string fragmentPath)
 {
@@ -8,20 +11,30 @@ Shader::Shader(const std::string vertexPath, const std::string fragmentPath)
 	std::ifstream vShaderFile;
 	std::ifstream fShaderFile;
 	
-	vShaderFile.exceptions(std::ifstream::badbit);
-	fShaderFile.exceptions(std::ifstream::badbit);
+	vShaderFile.exceptions(std::ifstream::badbit|std::ifstream::failbit);
+	fShaderFile.exceptions(std::ifstream::badbit|std::ifstream::failbit);
 
 	try
 	{
+		HMODULE hModule = GetModuleHandleW(NULL);
+		WCHAR path[MAX_PATH];
+		GetModuleFileNameW(hModule, path, MAX_PATH);
+		std::wstring ws(path);
+		std::string str(ws.begin(), ws.end());
+		std::cout << str << std::endl;
+		
 		//open file
-		vShaderFile.open(vertexPath);
-		fShaderFile.open(fragmentPath);
+		//vShaderFile.open(vertexPath.c_str());
+		vShaderFile.open("C:\\Users\\david\\OneDrive\\Documents\\GitHub\\OpenGLPanel\\Debug\\vertexShader.glsl");
+		
+		//fShaderFile.open(fragmentPath.c_str());
+		fShaderFile.open("C:\\Users\\david\\OneDrive\\Documents\\GitHub\\OpenGLPanel\\Debug\\fragmentShader.glsl");
 		std::stringstream vShaderStream, fShaderStream;
 		//read file
-		vShaderStream << vShaderFile.rdbuf();
+		vShaderStream << vShaderFile.rdbuf();		
 		fShaderStream << fShaderFile.rdbuf();
-
-		std::cout << vShaderFile.tellg() << std::endl;
+		
+		
 
 		//close file
 		vShaderFile.close();
@@ -34,7 +47,7 @@ Shader::Shader(const std::string vertexPath, const std::string fragmentPath)
 	}
 	catch (std::ifstream::failure e)
 	{
-		std::cerr << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ: " << e.what() << std::endl;
+		std::cerr << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ: " << strerror(errno)  << "\n"<< e.what() << std::endl;
 		success = false;
 		return;
 	}

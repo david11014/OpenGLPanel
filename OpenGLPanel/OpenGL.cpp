@@ -58,7 +58,7 @@ OpenGL::OpenGL(HDC hdc)
 
 	if (!shader->success)
 	{
-		set_error("creat shader failed");
+		set_error("Create shader failed");
 		return;
 	}
 		

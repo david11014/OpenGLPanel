@@ -142,14 +142,14 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OpenGLPanel\OpenGLPanel.vcxproj">
-      <Project>{ecb8ce40-c3fe-4047-ae58-d419f54d8c09}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="MyForm.resx">
       <DependentUpon>MyForm.h</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OpenGLPanel\OpenGLPanel.vcxproj">
+      <Project>{ecb8ce40-c3fe-4047-ae58-d419f54d8c09}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

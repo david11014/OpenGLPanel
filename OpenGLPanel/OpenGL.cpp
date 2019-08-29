@@ -2,9 +2,10 @@
 #include "OpenGL.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <experimental\filesystem>
 
 
-OpenGL::OpenGL(HDC hdc)
+OpenGLCore::OpenGLCore(HDC hdc)
 {
 	//init handle
 	_hdc = hdc;
@@ -54,7 +55,19 @@ OpenGL::OpenGL(HDC hdc)
 		return;
 	}
 
-	shader = new Shader(".\\shader\\vertexShader.glsl", ".\\shader\\fragmentShader.glsl");
+	HMODULE hModule = GetModuleHandleW(NULL);
+	WCHAR path[MAX_PATH];
+	GetModuleFileNameW(hModule, path, MAX_PATH);
+	std::wstring ws(path);
+	std::string str(ws.begin(), ws.end());
+	std::cout << str << std::endl;
+
+	std::cout << std::experimental::filesystem::current_path() << std::endl;
+	std::ostream s;
+	s << std::experimental::filesystem::absolute(".\\shader\\vertexShader.glsl") << std::endl;
+	std::string path;
+	s >> path;
+	shader = new Shader(std::experimental::filesystem::absolute(".\\shader\\vertexShader.glsl").c_str(), std::experimental::filesystem::absolute(".\\shader\\fragmentShader.glsl").c_str());
 
 	if (!shader->success)
 	{
@@ -92,7 +105,7 @@ OpenGL::OpenGL(HDC hdc)
 
 }
 
-bool OpenGL::render()
+bool OpenGLCore::render()
 {
 
 	glClearColor(0.0f, 0, 0, 1.0f);
@@ -142,12 +155,12 @@ bool OpenGL::render()
 	return true;
 }
 
-void OpenGL::SwapBuffers() const
+void OpenGLCore::SwapBuffers() const
 {
 	::SwapBuffers(_hdc);
 }
 
-bool OpenGL::resize(int width, int height)
+bool OpenGLCore::resize(int width, int height)
 {
 	// glViewport should not be called with width or height zero
 	if (width == 0 || height == 0) return true;

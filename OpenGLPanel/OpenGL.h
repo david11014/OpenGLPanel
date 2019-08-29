@@ -6,7 +6,7 @@
 #include <string>
 #include "Shader.h"
 
-class OpenGL
+class OpenGLCore
 {
 
 	GLfloat vertices[216] = {
@@ -64,10 +64,10 @@ public:
 	GLuint VAO, VBO;
 	Shader *shader;
 	
-	OpenGL(HDC hdc);
+	OpenGLCore(HDC hdc);
 
 	bool render();
-	void OpenGL::SwapBuffers() const;
+	void OpenGLCore::SwapBuffers() const;
 
 	bool resize(int width, int height);
 	

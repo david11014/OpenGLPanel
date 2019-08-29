@@ -16,19 +16,10 @@ Shader::Shader(const std::string vertexPath, const std::string fragmentPath)
 
 	try
 	{
-		HMODULE hModule = GetModuleHandleW(NULL);
-		WCHAR path[MAX_PATH];
-		GetModuleFileNameW(hModule, path, MAX_PATH);
-		std::wstring ws(path);
-		std::string str(ws.begin(), ws.end());
-		std::cout << str << std::endl;
 		
 		//open file
-		//vShaderFile.open(vertexPath.c_str());
-		vShaderFile.open("C:\\Users\\david\\OneDrive\\Documents\\GitHub\\OpenGLPanel\\Debug\\vertexShader.glsl");
-		
-		//fShaderFile.open(fragmentPath.c_str());
-		fShaderFile.open("C:\\Users\\david\\OneDrive\\Documents\\GitHub\\OpenGLPanel\\Debug\\fragmentShader.glsl");
+		vShaderFile.open(vertexPath.c_str());
+		fShaderFile.open(fragmentPath.c_str());		
 		std::stringstream vShaderStream, fShaderStream;
 		//read file
 		vShaderStream << vShaderFile.rdbuf();		

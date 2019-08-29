@@ -7,13 +7,18 @@ namespace Project1 {
 	using namespace System::Collections;
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
-	using namespace System::Drawing;
+	using namespace System::Drawing;	
+	using namespace OpenGLPanel;
 
 	/// <summary>
 	/// MyForm 的摘要
 	/// </summary>
 	public ref class MyForm : public System::Windows::Forms::Form
 	{
+	private:
+
+		OpenGLPanel::GLApp^ glapp;
+
 	public:
 		MyForm(void)
 		{
@@ -21,6 +26,9 @@ namespace Project1 {
 			//
 			//TODO:  在此加入建構函式程式碼
 			//
+			glapp = gcnew OpenGLPanel::GLApp(panel1->Handle);
+			glapp->RenderScene();
+			
 		}
 
 	protected:
@@ -34,7 +42,9 @@ namespace Project1 {
 				delete components;
 			}
 		}
-	private: OpenGLPanel::GLPanel^  glPanel1;	
+	private: System::Windows::Forms::Panel^  panel1;
+	protected:
+
 	protected:
 
 	private:
@@ -50,22 +60,23 @@ namespace Project1 {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->glPanel1 = (gcnew  OpenGLPanel::GLPanel());
+			this->panel1 = (gcnew System::Windows::Forms::Panel());
 			this->SuspendLayout();
 			// 
-			// glPanel1
+			// panel1
 			// 
-			this->glPanel1->Location = System::Drawing::Point(12, 12);
-			this->glPanel1->Name = L"glPanel1";
-			this->glPanel1->Size = System::Drawing::Size(428, 399);
-			this->glPanel1->TabIndex = 0;
+			this->panel1->Location = System::Drawing::Point(0, 0);
+			this->panel1->Name = L"panel1";
+			this->panel1->Size = System::Drawing::Size(493, 406);
+			this->panel1->TabIndex = 0;
+			this->panel1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MyForm::panel1_Paint);
 			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 12);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(671, 434);
-			this->Controls->Add(this->glPanel1);
+			this->Controls->Add(this->panel1);
 			this->Name = L"MyForm";
 			this->Text = L"MyForm";
 			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
@@ -75,8 +86,11 @@ namespace Project1 {
 #pragma endregion
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
 
-		glPanel1->RenderScene();
+	}
+	private: System::Void panel1_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
 
+
+		
 	}
 	};
 }
